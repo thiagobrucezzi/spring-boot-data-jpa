@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="layout/layout :: head"></head>
+
+<body>
+
+	<header th:replace="layout/layout :: header"></header>
+
+	<div class="container py-4">
+
+		<div class="card bg-light">
+			<div class="card-header" th:text="${titulo}"></div>
+			<div class="card-body">
+
+				<form th:action="@{/form}" th:object="${usuario}" method="POST">
+					<div class="form-group">
+						<label class="col-sm-2 col-form-label">Nombre</label>
+						<div class="col-sm-6">
+							<input type="text" th:field="*{nombre}" class="form-control" placeholder="Nombre"/>
+							<small class="form-text text-danger" th:if="${#fields.hasErrors('nombre')}"
+								th:errors="*{nombre}"></small>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-sm-2 col-form-label">Apellido</label>
+						<div class="col-sm-6">
+							<input type="text" th:field="*{apellido}" class="form-control" placeholder="Apellido"/>
+							<small class="form-text text-danger" th:if="${#fields.hasErrors('apellido')}"
+								th:errors="*{apellido}"></small>
+						</div>
+					</div>
+
+
+					<div class="form-group">
+						<label class="col-sm-2 col-form-label">Email</label>
+						<div class="col-sm-6">
+							<input type="text" th:field="*{email}" class="form-control" placeholder="Email"/>
+							<small class="form-text text-danger" th:if="${#fields.hasErrors('email')}"
+								th:errors="*{email}"></small>
+						</div>
+					</div>
+					
+					<div class="form-group">
+						<label class="col-sm-2 col-form-label">Contraseña</label>
+						<div class="col-sm-6">
+							<input type="text" th:field="*{password}" class="form-control" placeholder="Contraseña"/>
+							<small class="form-text text-danger" th:if="${#fields.hasErrors('password')}"
+								th:errors="*{password}"></small>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-sm-2 col-form-label">Dependencia de Pestaciones</label>
+						<div class="col-sm-6">
+							<input type="text" th:field="*{dependenciaPrestaciones}" class="form-control" placeholder="Dependencia de prestaciones" />
+							<small class="form-text text-danger" th:if="${#fields.hasErrors('dependenciaPrestaciones')}"
+								th:errors="*{dependenciaPrestaciones}"></small>
+						</div>
+					</div>
+
+					<br>
+
+					<div class="form-group">
+						<div class="col-sm-6">
+							<input type="submit" value="Crear Usuario" class="btn btn-primary">
+						</div>
+					</div>
+
+
+				</form>
+			</div>
+
+		</div>
+	</div>
+	<footer th:replace="layout/layout :: footer"></footer>
+</body>
+
+</html>
