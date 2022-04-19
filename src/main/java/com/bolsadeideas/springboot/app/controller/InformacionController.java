@@ -28,103 +28,91 @@ import com.bolsadeideas.springboot.app.models.service.IMovimientoBancarioService
 @RequestMapping("/informacion")
 @SessionAttributes("informacion")
 public class InformacionController {
-	
+
 	@Autowired
 	private ICausaService causaService;
-	
-	 @Autowired
-	    private ILlamadaTelefonicaService llamadaTelefonicaService;
 
-	    @Autowired
-	    private IMovimientoBancarioService movimientoBancarioService;
-	    
-	    
-	
+	@Autowired
+	private ILlamadaTelefonicaService llamadaTelefonicaService;
+
+	@Autowired
+	private IMovimientoBancarioService movimientoBancarioService;
+
 	/* MÉTODOS DE LLAMADAS */
 	@GetMapping("/llamadasForm/{causaid}")
-	public String crearLlamada(@PathVariable(value="causaid") Long causaId, 
-			Map<String, Object> model, 
+	public String crearLlamada(@PathVariable(value = "causaid") Long causaId, Map<String, Object> model,
 			RedirectAttributes flash) {
-		
-		Causa causa= causaService.findOne(causaId);
-		if(causa==null) {
+
+		Causa causa = causaService.findOne(causaId);
+		if (causa == null) {
 			flash.addFlashAttribute("error", "La causa no existe en la base de datos");
 			return "redirect:/causas";
 		}
-		LlamadaTelefonica llamada=new LlamadaTelefonica();
+		LlamadaTelefonica llamada = new LlamadaTelefonica();
 		llamada.setCausa(causa);
-		
+
 		model.put("informacion", llamada);
 		model.put("titulo", "Agregar llamada telefónica");
-		
-		
+
 		return "informacion/llamadasForm";
 	}
-	
-	/*@PostMapping("/llamadasForm")
-	public String guardarLlamada(LlamadaTelefonica llamada,
-			RedirectAttributes flash, SessionStatus status) {
-		causaService.save()
-		return "";
-		
-	}*/
-	
+
+	/*
+	 * @PostMapping("/llamadasForm") public String guardarLlamada(LlamadaTelefonica
+	 * llamada, RedirectAttributes flash, SessionStatus status) {
+	 * causaService.save() return "";
+	 * 
+	 * }
+	 */
+
 	@RequestMapping(value = "/llamadasForm", method = RequestMethod.POST)
 	public String guardar(@Valid LlamadaTelefonica llamada, BindingResult result, Model model, SessionStatus status) {
-		if(!result.hasErrors()) {
+		if (!result.hasErrors()) {
 			model.addAttribute("titulo", "Formulario de llamada telefónica");
 			return "informacion/llamadasForm";
 		}
-		
+
 		llamadaTelefonicaService.save(llamada);
 		status.setComplete();
 		return "redirect:/causas" + llamada.getCausa().getId();
 	}
-  	
-	
-	
+
 	/* MÉTODOS DE MOVIMIENTO */
 	@GetMapping("/movBancarioForm/{causaid}")
-	public String crearMovimiento(@PathVariable(value="causaid") Long causaId, 
-			Map<String, Object> model, 
+	public String crearMovimiento(@PathVariable(value = "causaid") Long causaId, Map<String, Object> model,
 			RedirectAttributes flash) {
-		
-		Causa causa= causaService.findOne(causaId);
-		if(causa==null) {
+
+		Causa causa = causaService.findOne(causaId);
+		if (causa == null) {
 			flash.addFlashAttribute("error", "La causa no existe en la base de datos");
 			return "redirect:/causas";
 		}
-		MovimientoBancario movimiento=new MovimientoBancario();
+		MovimientoBancario movimiento = new MovimientoBancario();
 		movimiento.setCausa(causa);
-		
+
 		model.put("informacion", movimiento);
 		model.put("titulo", "Agregar movimiento bancario");
-		
-		
+
 		return "informacion/movBancarioForm";
 	}
-	
+
 	/* MÉTODOS DE RED SOCIAL */
 	@GetMapping("/redSocialForm/{causaid}")
-	public String crearRedSocial(@PathVariable(value="causaid") Long causaId, 
-			Map<String, Object> model, 
+	public String crearRedSocial(@PathVariable(value = "causaid") Long causaId, Map<String, Object> model,
 			RedirectAttributes flash) {
-		
-		Causa causa= causaService.findOne(causaId);
-		if(causa==null) {
+
+		Causa causa = causaService.findOne(causaId);
+		if (causa == null) {
 			flash.addFlashAttribute("error", "La causa no existe en la base de datos");
 			return "redirect:/causas";
 		}
-		RedSocial red=new RedSocial();
+		RedSocial red = new RedSocial();
 		red.setCausa(causa);
-		
+
 		model.put("informacion", red);
 		model.put("titulo", "Agregar movimiento bancario");
-		
-		
+
 		return "informacion/redSocialForm";
 	}
-
-	
 
 }
