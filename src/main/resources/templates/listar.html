@@ -6,39 +6,57 @@
 <body>
 
 	<header th:replace="layout/layout :: header"></header>
+	
+	<div class="nube"></div>
+	<div class="nube2"></div>
+	<div class="nube3"></div>
 
+
+	<!--Con la clase container de bootstrap permite centrar el contenido -->
+	<div class="container-fluid contenedor-index" style="text-align:center;">
+
+
+
+	</div>
 	<div class="container py-4">
 
 		<div class="card bg-light">
-		<div class="card-header" th:text="${titulo}"></div>
-		<div class="card-body">
-			
-			<h4 class="card-title">
-			<a sec:authorize="hasRole('ROLE_ADMIN')" class="btn btn-primary btn-xs" th:href="@{/form}">Crear usuario</a></h4>
-			<table class="table table-striped">
-				<thead>
-					<tr>
-						<th>Nombre</th>
-						<th>Apellido</th>
-						<th>Email</th>
-						<th>Dependencia</th>
-						<th sec:authorize="hasRole('ROLE_ADMIN')">Editar</th>
-						<th sec:authorize="hasRole('ROLE_ADMIN')">Eliminar</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr th:each="usuario: ${usuarios}">
-						<td th:text="${usuario.nombre}"></td>
-						<td th:text="${usuario.apellido}"></td>
-						<td th:text="${usuario.email}"></td>
-						<td th:text="${usuario.dependenciaPrestaciones}"></td>
-						<td sec:authorize="hasRole('ROLE_ADMIN')"><a class="btn btn-primary btn-xs" th:href="@{/form/} + ${usuario.id}" th:text="'Editar'"></a></td>
-					<td sec:authorize="hasRole('ROLE_ADMIN')"><a class="btn btn-danger btn-xs" th:href="@{/eliminar/} + ${usuario.id}" th:text="'Eliminar'" onclick="return confirm('Estás seguro que quieres eliminar?');"></a></td>
-					</tr>
-				</tbody>
-			</table>
-			
-			<nav th:replace="paginator-nav :: paginator"></nav>
+			<h4 class="card-header" th:text="${titulo}"></h4>
+			<div class="card-body">
+
+				<h4 class="card-title">
+					<a sec:authorize="hasRole('ROLE_ADMIN')" class="btn btn-primary btn-xs" th:href="@{/form}">
+						<i class="bi bi-person-plus-fill"></i>
+						Crear usuario</a>
+				</h4>
+				<table class="table table-striped">
+					<thead class="thead-dark">
+						<tr>
+							<th>Nombre</th>
+							<th>Apellido</th>
+							<th>Email</th>
+							<th>Dependencia</th>
+							<th sec:authorize="hasRole('ROLE_ADMIN')">Editar</th>
+							<th sec:authorize="hasRole('ROLE_ADMIN')">Eliminar</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="usuario: ${usuarios}">
+							<td th:text="${usuario.nombre}"></td>
+							<td th:text="${usuario.apellido}"></td>
+							<td th:text="${usuario.email}"></td>
+							<td th:text="${usuario.dependenciaPrestaciones}"></td>
+							<td sec:authorize="hasRole('ROLE_ADMIN')"><a class="btn btn-primary btn-xs"
+									th:href="@{/form/} + ${usuario.id}"> <i class="bi bi-pencil-fill"></i> </a></td>
+							<td sec:authorize="hasRole('ROLE_ADMIN')"><a class="btn btn-danger btn-xs"
+									th:href="@{/eliminar/} + ${usuario.id}"
+									onclick="return confirm('Estás seguro que quieres eliminar?');"> 
+									<i class="bi bi-trash3-fill"></i></a></td>
+						</tr>
+					</tbody>
+				</table>
+
+				<nav th:replace="paginator-nav :: paginator"></nav>
 			</div>
 		</div>
 	</div>

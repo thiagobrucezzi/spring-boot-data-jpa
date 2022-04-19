@@ -42,6 +42,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter{
 		.logout().permitAll()
 		.and()
 		.exceptionHandling().accessDeniedPage("/error_403");
+		
 	}
 
 	

@@ -53,9 +53,6 @@ public class Informacion implements Serializable {
 
 	}
 
-	public Informacion(Date fecha) {
-		this.fecha = fecha;
-	}
 	
 	//Setters and getters
 	
@@ -90,4 +87,9 @@ public class Informacion implements Serializable {
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
+	
+	public String tipo() {
+		return "";
+	}
+	
 }

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="layout/layout :: head"></head>
+
+<body>
+
+	<header th:replace="layout/layout :: header"></header>
+
+	<div class="container py-4">
+
+		<div class="card bg-light">
+			<h4 class="card-header" th:text="${titulo}"></h4>
+			<div class="card-body">
+
+				<form th:action="@{/informacion/llamadasForm}" th:object="${informacion}" method="POST">
+					
+					<div class="form-group">
+						<label class="col-sm-2 col-form-label">Dirección IP</label>
+						<div class="col-sm-6">
+							<input type="text" th:field="*{direccionIp}" class="form-control" placeholder="Dirección IP"/>
+							<small class="form-text text-danger" th:if="${#fields.hasErrors('direccionIp')}"
+								th:errors="*{direccionIp}"></small>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-sm-2 col-form-label">Fecha</label>
+						<div class="col-sm-6">
+							<input type="date" th:field="*{fecha}" class="form-control" placeholder="Fecha"/>
+							<small class="form-text text-danger" th:if="${#fields.hasErrors('fecha')}"
+								th:errors="*{fecha}"></small>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 col-form-label">Descripción</label>
+						<div class="col-sm-6">
+							<textarea type="text" th:field="*{descripcion}" class="form-control" placeholder="Descripcion"></textarea>
+							<small class="form-text text-danger" th:if="${#fields.hasErrors('descripcion')}"
+								th:errors="*{descripcion}"></small>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-sm-2 col-form-label">Receptor</label>
+						<div class="col-sm-6">
+							<input type="text" th:field="*{numeroReceptor}" class="form-control" placeholder="N° del receptor"/>
+							<small class="form-text text-danger" th:if="${#fields.hasErrors('numeroReceptor')}"
+								th:errors="*{numeroReceptor}"></small>
+						</div>
+					</div>
+					
+
+					<div class="form-group">
+						<label class="col-sm-3 form-label">Emisor</label>
+						<div class="col-sm-6">
+							<input type="text" th:field="*{numeroEmisor}" class="form-control" placeholder="N° del emisor" />
+							<small class="form-text text-danger" th:if="${#fields.hasErrors('numeroEmisor')}"
+								th:errors="*{numeroEmisor}"></small>
+						</div>
+					</div>
+					
+					<div class="form-group">
+						<label class="col-sm-3 col-form-label">Duración</label>
+						<div class="col-sm-6">
+							<input type="text" th:field="*{duracion}" class="form-control" placeholder="Duración"/>
+							<small class="form-text text-danger" th:if="${#fields.hasErrors('duracion')}"
+								th:errors="*{duracion}"></small>
+						</div>
+					</div>
+							
+
+					<div class="form-group">
+						<div class="d-grid gap-2 d-md-block col-sm-6">
+							<input type="submit" value="Guardar información" class="btn btn-primary">
+							<a sec:authorize="hasRole('ROLE_ADMIN')" class="btn btn-danger btn-xs" th:href="@{'/verCausa/'+ ${informacion.causa.id}}">
+							<i class="bi bi-x-circle"></i>
+							Cancelar</a>
+						</div>
+					</div>
+
+
+				</form>
+			</div>
+
+		</div>
+	</div>
+	<footer th:replace="layout/layout :: footer"></footer>
+</body>
+
+</html>

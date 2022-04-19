@@ -1,12 +1,18 @@
 package com.bolsadeideas.springboot.app.models.entity;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -17,20 +23,36 @@ import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
-@Table(name="causa")
-public class Causa {
+@Table(name="causas")
+public class Causa implements Serializable{
+	
+	
+	
+	private static final long serialVersionUID = 1L;
+
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Length(max = 14,min = 14, message = "Debe ingresar 14 digitos")
-    private String numExpediente;
+    @NotEmpty
+    @Length(max = 21,min = 21,message = "Debe ingresar 21 digitos")
+	private String numExpediente;
+    
+    @NotEmpty
+    private String caratula;
+    
+    @NotEmpty
+    private String denunciante;
+    
     @NotEmpty
     private String victima;
     @NotEmpty
     private String victimario;
     @NotEmpty
     private String contexto;
+    
+   @NotEmpty 
+    private String estado;
 
     @NotNull
     @Column(name = "create_at")
@@ -38,28 +60,22 @@ public class Causa {
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     private Date fecha;
     
+    @OneToMany(mappedBy = "causa"  ,fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Informacion> informaciones;
+    
+    
     //Constructor 
     public Causa() {
-
+    	this.informaciones=new ArrayList<Informacion>();
     }
     
-    
-    //Setters and getters
+	//Setters and getters
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Causa(String numExpediente, String victima, String victimario,String contexto, Date fecha) {
-        this.numExpediente = numExpediente;
-        this.victima = victima;
-        this.victimario = victimario;
-
-        this.contexto = contexto;
-        this.fecha = fecha;
     }
 
 
@@ -70,8 +86,27 @@ public class Causa {
     public void setNumExpediente(String numExpediente) {
         this.numExpediente = numExpediente;
     }
+    
+       
+    public String getDenunciante() {
+		return denunciante;
+	}
 
-    public String getVictima() {
+	public void setDenunciante(String denunciante) {
+		this.denunciante = denunciante;
+	}
+
+	public String getCaratula() {
+		return caratula;
+	}
+
+
+	public void setCaratula(String caratula) {
+		this.caratula = caratula;
+	}
+
+
+	public String getVictima() {
         return victima;
     }
 
@@ -103,5 +138,26 @@ public class Causa {
     public void setFecha(Date fecha) {
         this.fecha = fecha;
     }
+
+	public List<Informacion> getInformacion() {
+		return informaciones;
+	}
+
+	public void setInformacion(List<Informacion> informacion) {
+		this.informaciones = informacion;
+	}
+    
+    public void addInformacion(Informacion info) {
+    	informaciones.add(info);
+    }
+
+	public String getEstado() {
+		return estado;
+	}
+
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
+    
 
 }

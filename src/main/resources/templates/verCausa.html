@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="layout/layout :: head"></head>
+
+<body>
+
+	<header th:replace="layout/layout :: header"></header>
+
+	<div class="container py-4">
+
+		<div class="card bg-light">
+			<h4 class="card-header" th:text="${titulo}"></h4>
+			<div class="card-body">
+
+				<ul class="list-group">
+					<li class="list-group-item" th:text="'Carátula: '+ ${causa.caratula}"> </li>
+					<li class="list-group-item" th:text="'Denunciante: '+${causa.denunciante}"> </li>
+					<li class="list-group-item" th:text="'Víctima: '+${causa.victima}"> </li>
+					<li class="list-group-item" th:text="'Victimario: '+${causa.victimario}"> </li>
+					<li class="list-group-item" th:text="'Contexto: '+${causa.contexto}"> </li>
+					<li class="list-group-item" th:text="'Fecha: '+${causa.fecha}"> </li>
+					<li class="list-group-item" th:text="'Estado: '+${causa.estado}"> </li>
+				</ul>
+				<br>
+				<div class="card-title">
+					<a sec:authorize="hasRole('ROLE_ADMIN')" class="btn btn-primary btn-xs" th:href="@{/causasForm/} + ${causa.id}">
+						<i class="bi bi-pencil-fill"></i>
+						Editar</a>
+					<!--<a sec:authorize="hasRole('ROLE_ADMIN')" class="btn btn-secondary btn-xs" th:href="@{/causasForm/} + ${causa.id}">
+						<i class="bi bi-pencil-fill"></i>
+						Agregar información</a>-->
+						
+					
+						
+					<a class="btn btn-danger btn-xs" th:href="@{'/verCausa/' + ${causa.id}(format=pdf)}">PDF</a>	
+					<!--<a class="btn btn-success btn-xs" th:href="@{'/verCausa/' + ${causa.id}(format=xlsx)}">XLSX</a>	
+					-->
+				</div>
+				<div class="dropdown">
+						<button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-toggle="dropdown"
+							aria-haspopup="true" aria-expanded="false">
+							Agregar información
+						</button>
+						<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+							<li><a class="dropdown-item" th:href="@{'/informacion/movBancarioForm/'+${causa.id}}">Movimiento Bancario</a></li>
+							<li><a class="dropdown-item" th:href="@{'/informacion/llamadasForm/'+${causa.id}}">Llamada telefónica</a></li>
+							<li><a class="dropdown-item" th:href="@{'/informacion/redSocialForm/'+${causa.id}}">Red social</a></li>
+						</ul>
+					</div>
+						
+				
+				<div th:if="${#lists.isEmpty(causa.informacion)}" class="alert alert-info my-4" th:text="'No hay información asignada a la causa '+ ${causa.numExpediente}"> </div>
+				<table th:if="${not #lists.isEmpty(causa.informacion)}" class="table table-bordered table-striped my-4">
+					<thead class="table-dark">
+						<tr>
+							<th>Fecha</th>
+							<th>Descripcion</th>
+							<th>Tipo de información</th>
+							<th>Detalles</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="informacion: ${causa.informaciones}"> 
+							<td th:text="${informacion.fecha}"> </td>
+							<td th:text="${informacion.descripcion}"> </td>
+							<td th:text="${informacion.tipo}" > </td>
+							<td> <a class="btn btn-info btn-xs" th:href="@{/verInfo/} + ${informacion.id}"><i class="bi bi-eye"></i></a></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<footer th:replace="layout/layout :: footer"></footer>
+</body>
+
+</html>

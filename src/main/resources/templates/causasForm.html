@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="layout/layout :: head">
+
+</head>
+
+<body>
+
+	<header th:replace="layout/layout :: header"></header>
+
+	<div class="container py-4">
+
+		<div class="card bg-light">
+			<h4 class="card-header" th:text="${titulo}"></h4>
+			<div class="card-body">
+
+				<form th:action="@{/causasForm}" th:object="${causa}" method="POST">
+					<div class="form-group">
+						<label class="col-sm-2 col-form-label">Número</label>
+						<div class="col-sm-6 input-group">
+							<input onkeyup="formatNumeroExpediente(this)" type="text" th:field="*{numExpediente}" class="form-control"
+								placeholder="Número de expediente" />
+							<small class="form-text text-danger" th:if="${#fields.hasErrors('numExpediente')}"
+								th:errors="*{numExpediente}"></small>
+								<span class="input-group-text" id="basic-addon2">PP-Depto-Desc-N°PP-Año/Alcance</span>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-sm-2 col-form-label">Carátula</label>
+						<div class="col-sm-6">
+							<input type="text" th:field="*{caratula}" class="form-control" placeholder="Carátula" />
+							<small class="form-text text-danger" th:if="${#fields.hasErrors('caratula')}"
+								th:errors="*{caratula}"></small>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 col-form-label">Fecha</label>
+						<div class="col-sm-6">
+							<input type="text" th:field="*{fecha}" class="form-control"
+								th:errorclass="'form-control alert-danger'" placeholder="dd/mm/yyyy" />
+							<small class="form-text text-danger" th:if="${#fields.hasErrors('fecha')}"
+								th:errors="*{fecha}"></small>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-sm-2 col-form-label">Denunciante</label>
+						<div class="col-sm-6">
+							<input type="text" th:field="*{denunciante}" class="form-control"
+								placeholder="Nombre del denunciante" />
+							<small class="form-text text-danger" th:if="${#fields.hasErrors('denunciante')}"
+								th:errors="*{denunciante}"></small>
+						</div>
+					</div>
+
+
+					<div class="form-group">
+						<label class="col-sm-3 form-label">Víctima</label>
+						<div class="col-sm-6">
+							<input type="text" th:field="*{victima}" class="form-control"
+								placeholder="Nombre de la víctima" />
+							<small class="form-text text-danger" th:if="${#fields.hasErrors('victima')}"
+								th:errors="*{victima}"></small>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-sm-3 col-form-label">Denunciado/Imputado</label>
+						<div class="col-sm-6">
+							<input type="text" th:field="*{victimario}" class="form-control"
+								placeholder="Nombre del denunciado o imputado" />
+							<small class="form-text text-danger" th:if="${#fields.hasErrors('victimario')}"
+								th:errors="*{victimario}"></small>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-sm-3 col-form-label">Contexto</label>
+						<div class="col-sm-6">
+							<textarea th:field="*{contexto}" class="form-control"
+								placeholder="Ingrese descripcion"></textarea>
+							<small class="form-text text-danger" th:if="${#fields.hasErrors('contexto')}"
+								th:errors="*{contexto}"></small>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-sm-3 col-form-label">Estado</label>
+						<div class="col-sm-6">
+							<select class="form-control" th:field="*{estado}">
+								<option value="Abierta">Abierta</option>
+								<option value="Cerrada">Cerrada</option>
+							</select>
+						</div>
+					</div>
+
+
+
+					<div class="form-group">
+						<div class="d-grid gap-2 d-md-block col-sm-6">
+							<button class="btn btn-primary" type="submit"><i class="bi bi-folder-check"></i> Guardar Causa</button>
+							<a class="btn btn-danger btn-xs" th:href="@{/causas}"><i class="bi bi-x-circle"></i> Cancelar</a>
+						</div>
+					</div>
+
+
+				</form>
+			</div>
+
+		</div>
+	</div>
+	<footer th:replace="layout/layout :: footer"></footer>
+</body>
+
+</html>

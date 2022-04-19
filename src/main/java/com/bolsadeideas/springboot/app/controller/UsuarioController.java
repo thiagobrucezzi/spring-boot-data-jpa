@@ -44,7 +44,7 @@ public class UsuarioController {
 	private IUsuarioService usuarioService;
 	
 	
-	@RequestMapping(value={"/listar", "/"}, method=RequestMethod.GET)
+	@RequestMapping(value={"/listar"}, method=RequestMethod.GET)
 	public String listar(@RequestParam(name="page", defaultValue = "0") int page, Model model, 
 			Authentication authentication, 
 			HttpServletRequest request) {
@@ -82,6 +82,7 @@ public class UsuarioController {
 		return "listar";
 	}
 	
+	//Crear un usuario 
 	@Secured("ROLE_ADMIN")
 	@RequestMapping(value = "/form")
 	public String crear(Map<String, Object> model) {
@@ -92,7 +93,7 @@ public class UsuarioController {
 		return "form";
 	}
 
-		
+	//Editar usuario	
 	@Secured("ROLE_ADMIN")	
 	@RequestMapping(value = "/form/{id}")
 	public String editar(@PathVariable(value = "id") Long id, Map<String, Object> model, RedirectAttributes flash) {
@@ -123,14 +124,42 @@ public class UsuarioController {
 			model.addAttribute("titulo", "Formulario de usuario");
 			return "form";
 		}
-		String mensajeFlash = (usuario.getId() != null) ? "Usuario editado con éxito!" : "Usuario creado con éxito!";
+		String mensaje= (usuario.getId() != null)?"Editar usuario":"Guardar usuario";
+        String mensaje2 = (usuario.getId() != null)?"Editar usuario":"Crear usuario";
+		 if(usuarioService.save2(usuario)){  
+	            status.setComplete();
+	            String mensajeFlash2 = "Operacion realizada satisfactoriamente!";
+	            flash.addFlashAttribute("success",mensajeFlash2);
+	            return "redirect:/listar";
+	        }else{ 
+	        	  model.addAttribute("mensaje",mensaje);
+	              model.addAttribute("titulo", mensaje2);
+	            if(usuario.getId()!=null){ 
+	               try {
+	            	   usuarioService.save(usuario);
+	                   String mensajeFlash3 = (usuario.getId() != null)?"El usuario se ha modificado con éxito!":"Se ha agregado con éxito al usuario!";
+	                   flash.addFlashAttribute("success",mensajeFlash3);
+	                   return "redirect:/listar";
 
+	               }catch (Exception e){
+	                   model.addAttribute("danger","Error: el email ya se encuentra en uso");
+	                   return "form";
+	               }
+	            }else{
+	                model.addAttribute("danger","Error: el email ya se encuentra en uso");
+	                return "form";
+	            }
+	        }
+		/*
 		usuarioService.save(usuario);
 		status.setComplete();
 		flash.addFlashAttribute("success", mensajeFlash);
-		return "redirect:listar";
+		return "redirect:listar";*/
 	}
-
+	
+	
+	
+	//Eliminar usuario
 	@Secured("ROLE_ADMIN")
 	@RequestMapping(value = "/eliminar/{id}")
 	public String eliminar(@PathVariable(value = "id") Long id, RedirectAttributes flash) {

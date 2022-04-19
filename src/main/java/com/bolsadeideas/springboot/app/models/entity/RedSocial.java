@@ -10,16 +10,8 @@ public class RedSocial extends Informacion{
 	private static final long serialVersionUID = 1L;
 	private String tipo;
     private String perfil;
-    private String descripcion;
     
     //Constructores
-    public RedSocial(Date fecha, String tipo, String perfil, String descripcion) {
-        super(fecha);
-        this.tipo = tipo;
-        this.perfil = perfil;
-        this.descripcion = descripcion;
-    }
-
     public RedSocial() {
 
     }
@@ -40,13 +32,22 @@ public class RedSocial extends Informacion{
     public void setPerfil(String perfil) {
         this.perfil = perfil;
     }
+    
+    
 
-    public String getDescripcion() {
-        return descripcion;
-    }
+	@Override
+	public void setFecha(Date fecha) {
+		super.setFecha(fecha);
+	}
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
+	@Override
+	public void setDescripcion(String descripcion) {
+		super.setDescripcion(descripcion);
+	}
+
+	@Override
+	public String tipo() {
+		return "Red social";
+	}
 
 }

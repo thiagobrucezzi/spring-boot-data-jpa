@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="layout/layout :: head"></head>
+
+<body>
+
+	<header th:replace="layout/layout :: header"></header>
+
+	<div class="container py-4">
+
+		<div class="card bg-light">
+			<h4 class="card-header" th:text="${titulo}"></h4>
+			<div class="card-body">
+
+				<form th:action="@{/informacion/redSocialForm}" th:object="${informacion}" method="POST">
+					<div class="form-group">
+						<label class="col-sm-2 col-form-label">Tipo de red</label>
+						<div class="col-sm-6">
+							<input type="text" th:field="*{tipo}" class="form-control" placeholder="Tipo"/>
+							<small class="form-text text-danger" th:if="${#fields.hasErrors('tipo')}"
+								th:errors="*{tipo}"></small>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-sm-2 col-form-label">Perfil</label>
+						<div class="col-sm-6">
+							<input type="text" th:field="*{perfil}" class="form-control" placeholder="Perfil"/>
+							<small class="form-text text-danger" th:if="${#fields.hasErrors('perfil')}"
+								th:errors="*{perfil}"></small>
+						</div>
+					</div>
+					
+					<div class="form-group">
+						<label class="col-sm-2 col-form-label">Descripción</label>
+						<div class="col-sm-6">
+							<textarea type="text" th:field="*{descripcion}" class="form-control" placeholder="Descripcion"></textarea>
+							<small class="form-text text-danger" th:if="${#fields.hasErrors('descripcion')}"
+								th:errors="*{descripcion}"></small>
+						</div>
+					</div>
+				
+					
+					
+				<div class="form-group">
+						<div class="d-grid gap-2 d-md-block col-sm-6">
+							<input type="submit" value="Guardar información" class="btn btn-primary">
+							<a sec:authorize="hasRole('ROLE_ADMIN')" class="btn btn-danger btn-xs" th:href="@{'/verCausa/'+ ${informacion.causa.id}}">
+							<i class="bi bi-x-circle"></i>
+							Cancelar</a>
+						</div>
+					</div>
+
+
+				</form>
+			</div>
+
+		</div>
+	</div>
+	<footer th:replace="layout/layout :: footer"></footer>
+</body>
+
+</html>
