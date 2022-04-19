@@ -19,12 +19,16 @@
 					<div class="form-group">
 						<label class="col-sm-2 col-form-label">Número</label>
 						<div class="col-sm-6 input-group">
-							<input onkeyup="formatNumeroExpediente(this)" type="text" th:field="*{numExpediente}" class="form-control"
-								placeholder="Número de expediente" />
+							<input onkeyup="formatNumeroExpediente(this)" type="text" th:field="*{numExpediente}" class="form-control" 
+								placeholder="Número de expediente" size="21" maxlength="21" list="defaultExpedientes" required
+								pattern="PP-.+-.+-.+-.+/.+" />		
+							<datalist id="defaultExpedientes">
+								<option value="PP-04-22-33-44/2022">
+							</datalist>
 							<small class="form-text text-danger" th:if="${#fields.hasErrors('numExpediente')}"
 								th:errors="*{numExpediente}"></small>
-								<span class="input-group-text" id="basic-addon2">PP-Depto-Desc-N°PP-Año/Alcance</span>
-						</div>
+								<span class="input-group-text" id="basic-addon2">PP-Depto-Desc-N°PP-Año/Alcance</span>						
+							</div>
 					</div>
 
 					<div class="form-group">
