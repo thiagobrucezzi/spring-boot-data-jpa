@@ -21,16 +21,13 @@
 						<div class="col-sm-6 input-group">
 							<input onkeyup="formatNumeroExpediente(this)" type="text" th:field="*{numExpediente}" class="form-control" 
 								placeholder="Número de expediente" size="21" maxlength="21" list="defaultExpedientes" required
-								pattern="PP-.+-.+-.+-.+/.+" />		
-							<datalist id="defaultExpedientes">
-								<option value="PP-04-22-33-2022/2023">
-							</datalist>
+								pattern="PP-04+-.+-.+-.+/.+" />		
 							<small class="form-text text-danger" th:if="${#fields.hasErrors('numExpediente')}"
 								th:errors="*{numExpediente}"></small>
 								<span class="input-group-text" id="basic-addon2">PP-Depto-Desc-N°PP-Año/Alcance</span>						
 							</div>
 					</div>
-
+<!--
 					<div class="form-group">
 						<label class="col-sm-2 col-form-label">Carátula</label>
 						<div class="col-sm-6">
@@ -39,6 +36,43 @@
 								th:errors="*{caratula}"></small>
 						</div>
 					</div>
+		-->			
+					<div class="form-group">
+						<label class="col-sm-2 col-form-label">Carátula</label>
+						<div class="col-sm-6">
+							<select class="form-control" th:field="*{caratula}" >
+							<option value="Homicidio">Homicidio</option>
+							<option value="Homicidio criminis causa">Homicidio criminis causa</option>
+							<option value="Otros homicidio agravados">Otros homicidio agravados</option>
+							<option value="Homicidio en ocasión de robo">Homicidio en ocasión de robo</option>
+							<option value="Homicidio culposo">Homicidio culposo</option>
+							<option value="Lesiones culposas">Lesiones culposas</option>
+							<option value="Lesiones leves">Lesiones leves</option>
+							<option value="Otros delitos contra las personas">Otros delitos contra las personas</option>
+							<option value="Abuso sexual con acceso carnal">Abuso sexual con acceso carnal</option>
+							<option value="Otros delitos contra la integridad sexual">Otros delitos contra la integridad sexual</option>
+							<option value="Amenazas">Amenazas</option>
+							<option value="Otros delitos contra la libertad">Otros delitos contra la libertad</option>
+							<option value="Daño">Daño</option>
+							<option value="Estafa">Estafa</option>
+							<option value="Hurto">Hurto</option>
+							<option value="Hurto agravado con vehículos dejados en la vía pública">Hurto agravado con vehículos dejados en la vía pública</option>
+							<option value="Otros hurtos agravados">Otros hurtos agravados</option>
+							<option value="Robo">Robo</option>
+							<option value="Robo agravado uso de arma">Robo agravado uso de arma</option>
+							<option value="Otros robos agravados">Otros robos agravados</option>
+							<option value="Otros delitos contra la propiedad">Otros delitos contra la propiedad</option>
+							<option value="Infracción Ley N°23.737">Infracción Ley N°23.737</option>
+							<option value="Otros delitos contra la salud pública">Otros delitos contra la salud pública</option>
+							<option value="Delitos contra la seguridad pública">Delitos contra la seguridad pública</option>
+							<option value="Encubrimiento">Encubrimiento</option>
+							<option value="Delitos contra la administración pública">Delitos contra la administración pública</option>
+								
+							</select>
+						</div>
+					</div>
+					
+					
 					<div class="form-group">
 						<label class="col-sm-2 col-form-label">Fecha</label>
 						<div class="col-sm-6">
