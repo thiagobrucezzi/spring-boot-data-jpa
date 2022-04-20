@@ -6,6 +6,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.bolsadeideas.springboot.app.models.entity.Causa;
+import com.bolsadeideas.springboot.app.models.entity.LlamadaTelefonica;
+import com.bolsadeideas.springboot.app.models.entity.MovimientoBancario;
+import com.bolsadeideas.springboot.app.models.entity.RedSocial;
 
 public interface ICausaService {
 	public List<Causa> findAllByDesc();
@@ -25,6 +28,13 @@ public interface ICausaService {
 	public Page<Causa> findAll(Pageable pageable,String palabraClave);
 	
 	public List<Causa> listAll(String palabraClave);
+	
+	public void guardarLlamada(LlamadaTelefonica llamada);
+	
+	public void guardarMov(MovimientoBancario movimiento);
+	
+	public void guardarRed(RedSocial red);
+	
 
 
 }

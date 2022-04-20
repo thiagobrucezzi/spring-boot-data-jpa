@@ -9,12 +9,27 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bolsadeideas.springboot.app.models.dao.ICausaDao;
+import com.bolsadeideas.springboot.app.models.dao.ILlamadaTelefonicaDao;
+import com.bolsadeideas.springboot.app.models.dao.IMovimientoBancarioDao;
+import com.bolsadeideas.springboot.app.models.dao.IRedSocialDao;
 import com.bolsadeideas.springboot.app.models.entity.Causa;
+import com.bolsadeideas.springboot.app.models.entity.LlamadaTelefonica;
+import com.bolsadeideas.springboot.app.models.entity.MovimientoBancario;
+import com.bolsadeideas.springboot.app.models.entity.RedSocial;
 @Service
 public class CausaServiceImp implements ICausaService {
 	
 	@Autowired
 	private ICausaDao causaDao;
+	
+	@Autowired
+	private ILlamadaTelefonicaDao llamadaDao;
+	
+	@Autowired
+	private IMovimientoBancarioDao movimientoBancarioDao;
+	
+	@Autowired
+	private IRedSocialDao redSocialDao;
 	
 	@Override
 	@Transactional(readOnly=true)
@@ -80,6 +95,24 @@ public class CausaServiceImp implements ICausaService {
 	public List<Causa> listAll(String palabraClave) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void guardarLlamada(LlamadaTelefonica llamada) {
+		llamadaDao.save(llamada);
+		
+	}
+
+	@Override
+	public void guardarMov(MovimientoBancario movimiento) {
+		movimientoBancarioDao.save(movimiento);
+		
+	}
+
+	@Override
+	public void guardarRed(RedSocial red) {
+		redSocialDao.save(red);
+		
 	}
 
 

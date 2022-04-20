@@ -9,9 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -24,21 +22,18 @@ import com.bolsadeideas.springboot.app.models.entity.MovimientoBancario;
 import com.bolsadeideas.springboot.app.models.entity.RedSocial;
 import com.bolsadeideas.springboot.app.models.service.ICausaService;
 import com.bolsadeideas.springboot.app.models.service.ILlamadaTelefonicaService;
-import com.bolsadeideas.springboot.app.models.service.IMovimientoBancarioService;
+
 
 @Controller
 @RequestMapping("/informacion")
 @SessionAttributes("informacion")
 public class InformacionController {
-
+	
 	@Autowired
 	private ICausaService causaService;
 
 	@Autowired
 	private ILlamadaTelefonicaService llamadaTelefonicaService;
-
-	@Autowired
-	private IMovimientoBancarioService movimientoBancarioService;
 
 	/* MÉTODOS DE LLAMADAS */
 	@GetMapping("/llamadasForm/{causaid}")
@@ -52,7 +47,7 @@ public class InformacionController {
 		}
 		LlamadaTelefonica llamada = new LlamadaTelefonica();
 		llamada.setCausa(causa);
-		causa.addInformacion(llamada);
+		
 
 		model.put("informacion", llamada);
 		model.put("titulo", "Agregar llamada telefónica");
@@ -61,12 +56,12 @@ public class InformacionController {
 	}
 
 	@RequestMapping(value = "/llamadasForm", method = RequestMethod.POST)
-	public String guardar(LlamadaTelefonica informacion, Model model, SessionStatus status) {
-		
-
+	public String guardar(@Valid LlamadaTelefonica informacion, BindingResult result, Model model, SessionStatus status) {
+		System.out.println(informacion.getCausa().getId());
+		causaService.guardarLlamada(informacion);
 		llamadaTelefonicaService.save(informacion);
 		status.setComplete();
-		return "redirect:/verCausas";
+		return "redirect:/verCausas/" + informacion.getCausa().getId();
 	}
  	
 	
