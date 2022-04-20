@@ -7,5 +7,7 @@ public interface ILlamadaTelefonicaService {
 	
 	public void save(LlamadaTelefonica llamada);
 	
+	public LlamadaTelefonica create(LlamadaTelefonica llamada);
+	
 
 }

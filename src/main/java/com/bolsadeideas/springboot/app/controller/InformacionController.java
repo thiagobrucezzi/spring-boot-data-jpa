@@ -9,7 +9,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -50,32 +52,35 @@ public class InformacionController {
 		}
 		LlamadaTelefonica llamada = new LlamadaTelefonica();
 		llamada.setCausa(causa);
+		causa.addInformacion(llamada);
 
 		model.put("informacion", llamada);
 		model.put("titulo", "Agregar llamada telefónica");
 
-		return "informacion/llamadasForm";
+		return "informacion/llamadasForm" ;
 	}
-
-	/*
-	 * @PostMapping("/llamadasForm") public String guardarLlamada(LlamadaTelefonica
-	 * llamada, RedirectAttributes flash, SessionStatus status) {
-	 * causaService.save() return "";
-	 * 
-	 * }
-	 */
 
 	@RequestMapping(value = "/llamadasForm", method = RequestMethod.POST)
-	public String guardar(@Valid LlamadaTelefonica llamada, BindingResult result, Model model, SessionStatus status) {
+	public String guardar(LlamadaTelefonica informacion, Model model, SessionStatus status) {
+		
+
+		llamadaTelefonicaService.save(informacion);
+		status.setComplete();
+		return "redirect:/verCausas";
+	}
+ 	
+	
+	/*
+	
+	@RequestMapping(value = "/llamadasForm/{causaid}", method = RequestMethod.POST)
+	public String guardar( @Valid LlamadaTelefonica llamada, BindingResult result, Model model) {
 		if (!result.hasErrors()) {
 			model.addAttribute("titulo", "Formulario de llamada telefónica");
-			return "informacion/llamadasForm";
+			return "informacion/llamadasForm"  ;
 		}
-
-		llamadaTelefonicaService.save(llamada);
-		status.setComplete();
-		return "redirect:/causas" + llamada.getCausa().getId();
-	}
+		llamadaTelefonicaService.create(llamada);
+		return "redirect:/verCausas" + llamada.getCausa().getId();
+	}*/
 
 	/* MÉTODOS DE MOVIMIENTO */
 	@GetMapping("/movBancarioForm/{causaid}")

@@ -28,7 +28,7 @@ public class LlamadaTelefonica extends Informacion {
 	private Integer duracion;
 	
 	 @Temporal(TemporalType.DATE)
-	 @DateTimeFormat(pattern = "dd/mm/yyyy")
+	 @DateTimeFormat(pattern = "dd/MM/yyyy")
 	private Date fecha;
 
 	// Constructor
@@ -38,6 +38,22 @@ public class LlamadaTelefonica extends Informacion {
 	// Setters and getters
 	public String getNumeroReceptor() {
 		return numeroReceptor;
+	}
+
+	public LlamadaTelefonica() {
+		
+	}
+
+	public LlamadaTelefonica(@NotEmpty String direccionIp,
+			@NotEmpty @Length(max = 10, min = 10, message = "Debe ingresar 10 digitos") String numeroReceptor,
+			@NotEmpty @Length(max = 10, min = 10, message = "Debe ingresar 10 digitos") String numeroEmisor,
+			@NotNull Integer duracion, Date fecha) {
+		
+		this.direccionIp = direccionIp;
+		this.numeroReceptor = numeroReceptor;
+		this.numeroEmisor = numeroEmisor;
+		this.duracion = duracion;
+		this.fecha = fecha;
 	}
 
 	public void setNumeroReceptor(String numeroReceptor) {

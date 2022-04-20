@@ -22,7 +22,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public class Informacion implements Serializable {
+public abstract class Informacion implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 

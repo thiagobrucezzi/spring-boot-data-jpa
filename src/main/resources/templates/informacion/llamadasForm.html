@@ -27,7 +27,7 @@
 					<div class="form-group">
 						<label class="col-sm-2 col-form-label">Fecha</label>
 						<div class="col-sm-6">
-							<input type="date" th:field="*{fecha}" class="form-control" placeholder="Fecha"/>
+							<input type="text" th:field="*{fecha}" class="form-control" placeholder="Fecha"/>
 							<small class="form-text text-danger" th:if="${#fields.hasErrors('fecha')}"
 								th:errors="*{fecha}"></small>
 						</div>
@@ -72,7 +72,7 @@
 
 					<div class="form-group">
 						<div class="d-grid gap-2 d-md-block col-sm-6">
-							<input type="submit" value="Guardar información" class="btn btn-primary">
+							<button class="btn btn-primary" type="submit"><i class="bi bi-folder-check"></i> Guardar llamada telefónica</button>
 							<a sec:authorize="hasRole('ROLE_ADMIN')" class="btn btn-danger btn-xs" th:href="@{'/verCausa/'+ ${informacion.causa.id}}">
 							<i class="bi bi-x-circle"></i>
 							Cancelar</a>

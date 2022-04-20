@@ -18,4 +18,10 @@ public class LlamadaTelefonicaServiceImp implements ILlamadaTelefonicaService {
 		llamadaDao.save(llamada);
 	}
 
+	@Override
+	public LlamadaTelefonica create(LlamadaTelefonica llamada) {
+		llamada=llamadaDao.save(llamada);
+		return llamada;
+	}
+
 }
