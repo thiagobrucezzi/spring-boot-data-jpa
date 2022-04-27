@@ -9,5 +9,9 @@ public interface ILlamadaTelefonicaService {
 	
 	public LlamadaTelefonica create(LlamadaTelefonica llamada);
 	
+	public LlamadaTelefonica getLlamadaTelefonica(Long id);
+	
+	public void delete(Long id);
+	
 
 }

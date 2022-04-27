@@ -22,7 +22,7 @@
 					<li class="list-group-item" th:text="'Victimario: '+${causa.victimario}"> </li>
 					<li class="list-group-item" th:text="'Contexto: '+${causa.contexto}"> </li>
 					<li class="list-group-item" th:text="'Fecha: '+${causa.fecha}"> </li>
-					<li class="list-group-item" th:text="'Estado: '+${causa.estado}"> </li>
+					
 				</ul>
 				<br>
 				<div class="card-title">
@@ -38,38 +38,81 @@
 					<a class="btn btn-danger btn-xs" th:href="@{'/verCausa/' + ${causa.id}(format=pdf)}"><i class="bi bi-file-earmark-pdf-fill"></i></i></a>	
 					<!--<a class="btn btn-success btn-xs" th:href="@{'/verCausa/' + ${causa.id}(format=xlsx)}">XLSX</a>	
 					-->
+					 <a sec:authorize="hasRole('ROLE_ADMIN')" class="btn btn-primary btn-xs" th:if="${causa.estado}" th:href="@{/cambiarEstado/} + ${causa.id}">
+						<i class="bi bi-pencil-fill"></i>
+						Cerrar causa</a>
+						
+					 <a sec:authorize="hasRole('ROLE_ADMIN')" class="btn btn-primary btn-xs" th:if="${!causa.estado}" th:href="@{/cambiarEstado/} + ${causa.id}">
+						<i class="bi bi-pencil-fill"></i>
+						Abrir causa</a>
+					
 				</div>
 				<div class="dropdown">
-						<button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-toggle="dropdown"
-							aria-haspopup="true" aria-expanded="false">
-							Agregar información
-						</button>
-						<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-							<li><a class="dropdown-item" th:href="@{'/informacion/movBancarioForm/'+${causa.id}}">Movimiento Bancario</a></li>
-							<li><a class="dropdown-item" th:href="@{'/informacion/llamadasForm/'+${causa.id}}">Llamada telefónica</a></li>
-							<li><a class="dropdown-item" th:href="@{'/informacion/redSocialForm/'+${causa.id}}">Red social</a></li>
-						</ul>
-					</div>
+					<button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-toggle="dropdown"
+						aria-haspopup="true" aria-expanded="false">
+						Agregar información
+					</button>
+					<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+						<li><a class="dropdown-item" th:href="@{'/informacion/movBancarioForm/'+${causa.id}}">Movimiento Bancario</a>
+						</li>
+						<li><a class="dropdown-item" th:href="@{'/informacion/llamadasForm/'+${causa.id}}">Llamada telefónica</a></li>
+						<li><a class="dropdown-item" th:href="@{'/informacion/redSocialForm/'+${causa.id}}">Red social</a></li>
+					</ul>
+				</div>
 						
 				
 				<div th:if="${#lists.isEmpty(causa.informacion)}" class="alert alert-info my-4" th:text="'No hay información asignada a la causa '+ ${causa.numExpediente}"> </div>
 				<table th:if="${not #lists.isEmpty(causa.informacion)}" class="table table-bordered table-striped my-4">
 					<thead class="table-dark">
 						<tr>
-							<th>Fecha</th>
-							<th>Descripcion</th>
+							<th>Fecha y hora</th>
+							<th>Descripción</th>
 							<th>Tipo de información</th>
-							<th>Detalles</th>
+							<th>Detalle</th>
+							<th>Ver</th>
+							<th th:if="${causa.estado}">Eliminar</th>
 						</tr>
 					</thead>
+					
 					<tbody>
-						<tr th:each="informacion: ${causa.informaciones}"> 
-							<td th:text="${informacion.fecha}"> </td>
+						<tr th:each="informacion: ${historial}"> 
+							<td th:text="${#dates.format(informacion.fecha, 'dd/MM/yyyy  HH:mm:ss')}"> </td>
 							<td th:text="${informacion.descripcion}"> </td>
-							<td th:text="${informacion.tipo}" > </td>
-							<td> <a class="btn btn-info btn-xs" th:href="@{/verInfo/} + ${informacion.id}"><i class="bi bi-eye"></i></a></td>
+							<td>
+                        <span th:if="${informacion.esLlamada}"><i class="bi bi-telephone"></i>  Llamada telefónica</span>
+                        <span th:if="${informacion.esMovimiento}"><i class="bi bi-cash-coin"></i>  Movimiento bancario</span>
+                        <span th:if="${informacion.esRedSocial}"><i class="bi bi-globe2"></i>  Red social</span>
+                    </td>
+                    <td>
+                        <span th:if="${informacion.esLlamada}" th:text="'Dirección IP: ' + ${informacion.direccionIp}"></span>
+                        <span th:if="${informacion.esMovimiento}" th:text="'Tipo de transacción: '+${informacion.tipoTransaccion}"></span>
+                        <span th:if="${informacion.esRedSocial}" th:text="${informacion.tipo}"></span>
+                    </td>
+                    
+							<td> 
+							<a class="btn btn-info btn-xs" th:if="${informacion.esLlamada}" th:href="@{/informacion/verLlamada/} + ${informacion.id}"><i class="bi bi-eye"></i></a>
+							<a class="btn btn-info btn-xs" th:if="${informacion.esMovimiento}" th:href="@{/informacion/verMovimiento/} + ${informacion.id}"><i class="bi bi-eye"></i></a>
+							<a class="btn btn-info btn-xs" th:if="${informacion.esRedSocial}" th:href="@{/informacion/verRedSocial/} + ${informacion.id}"><i class="bi bi-eye"></i></a>
+							
+							
+							</td>
+							
+							<td sec:authorize="hasRole('ROLE_ADMIN')" th:if="${causa.estado}">
+                        <span th:if="${informacion.esLlamada}"> <a class="btn btn-danger btn-xs"
+									th:href="@{/informacion/deleteLlam/} + ${informacion.id}"
+									onclick="return confirm('Estás seguro que quieres eliminar?');"><i class="bi bi-trash"></i></a></span>
+                        <span th:if="${informacion.esMovimiento}"><a class="btn btn-danger btn-xs"
+									th:href="@{/informacion/deleteMov/} + ${informacion.id}"
+									onclick="return confirm('Estás seguro que quieres eliminar?');"><i class="bi bi-trash"></i></a></span>
+                        <span th:if="${informacion.esRedSocial}"><a class="btn btn-danger btn-xs"
+									th:href="@{/informacion/deleteRed/} + ${informacion.id}"
+									onclick="return confirm('Estás seguro que quieres eliminar?');"><i class="bi bi-trash"></i></a></span>
+                    </td>
+							
+							
 						</tr>
 					</tbody>
+					
 				</table>
 			</div>
 		</div>

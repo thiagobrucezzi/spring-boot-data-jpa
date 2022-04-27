@@ -7,7 +7,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
@@ -35,8 +34,6 @@ public class Usuario implements Serializable {
 	@Column(length=100)
 	private String password;
 	
-	@Transient
-	private String confirmPassword;
 	
 	@NotEmpty
 	private String dependenciaPrestaciones;
@@ -105,14 +102,6 @@ public class Usuario implements Serializable {
 
 	public void setRoles(String roles) {
 		this.rol = roles;
-	}
-
-	public String getConfirmPassword() {
-		return confirmPassword;
-	}
-
-	public void setConfirmPassword(String confirmPassword) {
-		this.confirmPassword = confirmPassword;
 	}
 
 	

@@ -18,6 +18,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -51,8 +52,7 @@ public class Causa implements Serializable{
     @NotEmpty
     private String contexto;
     
-   @NotEmpty 
-    private String estado;
+    private Boolean estado;
 
     @NotNull
     @Column(name = "create_at")
@@ -67,6 +67,9 @@ public class Causa implements Serializable{
     //Constructor 
     public Causa() {
     	this.informaciones=new ArrayList<Informacion>();
+    	this.fecha=new Date();
+        this.estado=true;
+    	
     }
     
 	//Setters and getters
@@ -151,11 +154,11 @@ public class Causa implements Serializable{
     	informaciones.add(info);
     }
 
-	public String getEstado() {
+	public Boolean getEstado() {
 		return estado;
 	}
 
-	public void setEstado(String estado) {
+	public void setEstado(Boolean estado) {
 		this.estado = estado;
 	}
     

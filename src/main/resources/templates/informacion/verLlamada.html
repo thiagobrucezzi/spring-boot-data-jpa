@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="layout/layout :: head"></head>
+
+<body>
+
+	<header th:replace="layout/layout :: header"></header>
+
+	<div class="container py-4">
+		<div class="nube"></div>
+	<div class="nube2"></div>
+	<div class="nube3"></div>
+		<div class="card bg-light">
+			<h4 class="card-header" th:text="${titulo}"></h4>
+			<div class="card-body">
+
+				<ul class="list-group">
+					<li class="list-group-item" th:text="'Direccion IP: '+ ${informacion.direccionIp}"> </li>
+					<li class="list-group-item" th:text="'Número de receptor: '+${informacion.numeroReceptor}"> </li>
+					<li class="list-group-item" th:text="'Número de emisor: '+${informacion.numeroEmisor}"> </li>
+					<li class="list-group-item" th:text="'Duración: '+${informacion.duracion}"> </li>
+					<li class="list-group-item" th:text="'Descripción: '+${informacion.descripcion}"> </li>
+					<li class="list-group-item" th:text="'Fecha: '+${informacion.fecha}"> </li>
+					
+				</ul>
+				<br>
+								
+			</div>
+			
+			<div class="form-group">
+						<div class="d-grid gap-2 d-md-block col-sm-6">
+							<a class="btn btn-danger btn-xs" th:href="@{'/verCausa/'+ ${informacion.causa.id}}">
+							<i class="bi bi-x-circle"></i>
+							Volver</a>
+						</div>
+			</div>
+		</div>
+	</div>
+
+	<footer th:replace="layout/layout :: footer"></footer>
+</body>
+
+</html>

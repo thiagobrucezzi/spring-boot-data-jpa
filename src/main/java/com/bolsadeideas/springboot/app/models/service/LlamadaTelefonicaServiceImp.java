@@ -24,5 +24,18 @@ public class LlamadaTelefonicaServiceImp implements ILlamadaTelefonicaService {
 		llamada=llamadaDao.save(llamada);
 		return llamada;
 	}
+	
+	@Override
+	@Transactional
+    public LlamadaTelefonica getLlamadaTelefonica(Long id) {
+        return llamadaDao.findById(id).get();
+    }
+
+	@Override
+	@Transactional
+	public void delete(Long id) {
+		llamadaDao.deleteById(id);
+		
+	}
 
 }

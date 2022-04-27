@@ -1,7 +1,9 @@
 package com.bolsadeideas.springboot.app.controller;
 
 
+import java.util.Comparator;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -23,6 +25,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.bolsadeideas.springboot.app.models.entity.Causa;
+import com.bolsadeideas.springboot.app.models.entity.Informacion;
 import com.bolsadeideas.springboot.app.models.service.ICausaService;
 import com.bolsadeideas.springboot.app.util.paginator.PageRender;
 
@@ -93,9 +96,12 @@ public class CausaController {
 			flash.addFlashAttribute("error", "La causa no existe en la base de datos");
 			return "redirect:/causas";
 		}
-
+		
 		model.put("causa", causa);
 		model.put("titulo", "Causa N°: " + causa.getNumExpediente());
+		model.put("historial", causaService.listaInformaciones(causa)
+				.stream().sorted(Comparator.comparing(Informacion::getFecha).reversed())
+				.collect(Collectors.toList()));
 
 		return "verCausa";
 	}
@@ -136,5 +142,19 @@ public class CausaController {
 	}
   	
   
+  	@GetMapping("/cambiarEstado/{id}")
+    public String cambiarEstado(@PathVariable("id") Long id, Model model){
+            Causa c= causaService.findOne(id);
+            if (c.getEstado()) {
+            	c.setEstado(false);
+            }else {
+            	c.setEstado(true);
+            }
+            causaService.update(c);
+            
+        return "redirect:/verCausa/" + c.getId();
+    }
+	
+  	
 
 }

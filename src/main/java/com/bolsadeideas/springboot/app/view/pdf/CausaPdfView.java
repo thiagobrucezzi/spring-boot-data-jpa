@@ -6,11 +6,13 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.view.document.AbstractPdfView;
 
 import com.bolsadeideas.springboot.app.models.entity.Causa;
 import com.bolsadeideas.springboot.app.models.entity.Informacion;
+import com.bolsadeideas.springboot.app.models.service.ICausaService;
 import com.lowagie.text.Document;
 import com.lowagie.text.Element;
 import com.lowagie.text.Font;
@@ -23,7 +25,9 @@ import com.lowagie.text.pdf.PdfWriter;
 
 @Component("verCausa")
 public class CausaPdfView extends AbstractPdfView {
-
+	@Autowired
+	 private ICausaService causaService;
+	
 	@Override
 	protected void buildPdfDocument(Map<String, Object> model, Document document, PdfWriter writer,
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -90,12 +94,21 @@ public class CausaPdfView extends AbstractPdfView {
 		PdfPTable tabla3 = new PdfPTable(3);
 		tabla3.setWidths(new float [] {1f, 3, 1});
 		tabla3.addCell("Fecha");
-		tabla3.addCell("Detalle");
-		tabla3.addCell("Tipo");
-		for(Informacion info: causa.getInformacion()) {
-			tabla3.addCell("Fecha: "+info.getFecha());
-			tabla3.addCell("Detalles: "+info.getDescripcion());
-			tabla3.addCell("Tipo: "+info.tipo());
+		tabla3.addCell("Descripción");
+		tabla3.addCell("Tipo de información");
+		
+		for(Informacion info: causaService.listaInformaciones(causa)) {
+			tabla3.addCell(""+info.getFecha());
+			tabla3.addCell(info.getDescripcion());
+			if(info.getEsLlamada()) {
+				tabla3.addCell("Llamada telefónica");
+			}else if(info.getEsMovimiento()) {
+				tabla3.addCell("Movimiento bancario");
+			}else {
+				tabla3.addCell("Red social");
+			}
+			
+			
 		}
 		
 		

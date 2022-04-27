@@ -27,12 +27,12 @@ public abstract class Informacion implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.TABLE)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	public Long id;
 
 	@Column(name = "create_at")
-	@Temporal(TemporalType.DATE)
-	@DateTimeFormat(pattern = "dd/MM/yyyy")
+	@Temporal(TemporalType.TIMESTAMP)
+	@DateTimeFormat(pattern = "dd/MM/yyyy HH:mm:ss")
 	private Date fecha;
 
 	@PrePersist
@@ -46,6 +46,11 @@ public abstract class Informacion implements Serializable {
 
 	@NotNull
 	private String descripcion;
+	
+	private Boolean esLlamada;
+	private Boolean esMovimiento;
+	private Boolean esRedSocial;
+
 
 	//Constructores 
 	
@@ -87,9 +92,37 @@ public abstract class Informacion implements Serializable {
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
-	
-	public String tipo() {
-		return "";
+
+
+	public Boolean getEsLlamada() {
+		return esLlamada;
 	}
+
+
+	public void setEsLlamada(Boolean esLlamada) {
+		this.esLlamada = esLlamada;
+	}
+
+
+	public Boolean getEsMovimiento() {
+		return esMovimiento;
+	}
+
+
+	public void setEsMovimiento(Boolean esMovimiento) {
+		this.esMovimiento = esMovimiento;
+	}
+
+
+	public Boolean getEsRedSocial() {
+		return esRedSocial;
+	}
+
+
+	public void setEsRedSocial(Boolean esRedSocial) {
+		this.esRedSocial = esRedSocial;
+	}
+	
+	
 	
 }

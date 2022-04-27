@@ -1,14 +1,12 @@
 package com.bolsadeideas.springboot.app.models.entity;
 
-import java.util.Date;
+
 
 import javax.persistence.Entity;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
-import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity(name = "llamada")
 public class LlamadaTelefonica extends Informacion {
@@ -18,33 +16,30 @@ public class LlamadaTelefonica extends Informacion {
 
 	@NotEmpty
 	private String direccionIp;
+	
 	@NotEmpty
 	@Length(max = 10, min = 10, message = "Debe ingresar 10 digitos")
 	private String numeroReceptor;
+	
 	@NotEmpty
 	@Length(max = 10, min = 10, message = "Debe ingresar 10 digitos")
 	private String numeroEmisor;
+	
 	@NotNull
 	private Integer duracion;
 	
-	 @Temporal(TemporalType.DATE)
-	 @DateTimeFormat(pattern = "dd/MM/yyyy")
-	private Date fecha;
-
-	// Constructor
-	
+	public LlamadaTelefonica() {
+		 this.setEsLlamada(true);
+	     this.setEsMovimiento(false);
+	     this.setEsRedSocial(false);
+		
+	}
 
 
 	// Setters and getters
 	public String getNumeroReceptor() {
 		return numeroReceptor;
 	}
-
-	public LlamadaTelefonica() {
-		
-	}
-
-	
 
 	public void setNumeroReceptor(String numeroReceptor) {
 		this.numeroReceptor = numeroReceptor;
@@ -73,24 +68,6 @@ public class LlamadaTelefonica extends Informacion {
 	public void setDireccionIp(String direccionIp) {
 		this.direccionIp = direccionIp;
 	}
-	
-
-	@Override
-	public void setDescripcion(String descripcion) {
-		super.setDescripcion(descripcion);
-	}
-
-
-	@Override
-	public String tipo() {
-		return "Llamada telefónica";
-	}
-	@Override
-	public void setCausa(Causa causa) {
-		// TODO Auto-generated method stub
-		super.setCausa(causa);
-	}
-
 
 
 }

@@ -1,5 +1,6 @@
 package com.bolsadeideas.springboot.app.models.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,29 +8,16 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.bolsadeideas.springboot.app.models.dao.ICausaDao;
-import com.bolsadeideas.springboot.app.models.dao.ILlamadaTelefonicaDao;
-import com.bolsadeideas.springboot.app.models.dao.IMovimientoBancarioDao;
-import com.bolsadeideas.springboot.app.models.dao.IRedSocialDao;
 import com.bolsadeideas.springboot.app.models.entity.Causa;
-import com.bolsadeideas.springboot.app.models.entity.LlamadaTelefonica;
-import com.bolsadeideas.springboot.app.models.entity.MovimientoBancario;
-import com.bolsadeideas.springboot.app.models.entity.RedSocial;
+import com.bolsadeideas.springboot.app.models.entity.Informacion;
+
 @Service
 public class CausaServiceImp implements ICausaService {
 	
 	@Autowired
 	private ICausaDao causaDao;
 	
-	@Autowired
-	private ILlamadaTelefonicaDao llamadaDao;
-	
-	@Autowired
-	private IMovimientoBancarioDao movimientoBancarioDao;
-	
-	@Autowired
-	private IRedSocialDao redSocialDao;
 	
 	@Override
 	@Transactional(readOnly=true)
@@ -98,25 +86,19 @@ public class CausaServiceImp implements ICausaService {
 	}
 
 	@Override
-	public void guardarLlamada(LlamadaTelefonica llamada) {
-		llamadaDao.save(llamada);
-		
+	public List<Informacion> listaInformaciones(Causa causa) {
+		Causa c=causaDao.findById(causa.getId()).get();
+		List<Informacion> historial=new ArrayList<>();
+		historial=causa.getInformacion();
+		return historial;
 	}
 
 	@Override
-	public void guardarMov(MovimientoBancario movimiento) {
-		movimientoBancarioDao.save(movimiento);
-		
+	public Causa update(Causa causa) {
+		Causa c=causaDao.findById(causa.getId()).get();
+		c.setEstado(causa.getEstado());
+		return causaDao.save(c);
 	}
-
-	@Override
-	public void guardarRed(RedSocial red) {
-		redSocialDao.save(red);
-		
-	}
-
-
-
 	
 
 

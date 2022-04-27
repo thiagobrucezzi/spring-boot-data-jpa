@@ -15,12 +15,12 @@ public interface ICausaDao extends PagingAndSortingRepository<Causa, Long> {
 	@Query("SELECT c FROM Causa c ORDER BY c.id DESC")
 	public List<Causa> findAllByDesc();
 	
-	@Query("SELECT c FROM Causa c WHERE lower(c.numExpediente) LIKE %?1%"
+	@Query("SELECT c FROM Causa c WHERE (c.numExpediente) LIKE %?1%"
 			+ "OR lower(c.caratula) LIKE %?1%"
 			+ "OR lower(c.victima) LIKE %?1%"
 			+ "OR lower(c.victimario) LIKE %?1%"
 			+ "OR lower(c.denunciante) LIKE %?1%"
-			+ "OR lower(c.estado) LIKE %?1%")
+			)
 	public Page<Causa> findAll(Pageable pageable , String palabraClave);
 	
 	

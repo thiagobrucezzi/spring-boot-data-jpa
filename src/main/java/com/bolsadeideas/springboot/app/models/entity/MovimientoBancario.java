@@ -13,7 +13,7 @@ public class MovimientoBancario extends Informacion {
 	private String usuario;
 	@NotEmpty
 	private String tipoTransaccion;
-	@NotEmpty
+	
 	private double monto;
 	@NotEmpty
 	private String moneda;
@@ -22,6 +22,10 @@ public class MovimientoBancario extends Informacion {
 	
 	//Constructor
 	public MovimientoBancario() {
+		this.setEsLlamada(false);
+	     this.setEsMovimiento(true);
+	     this.setEsRedSocial(false);
+
 	}
 
 	//Setters and getters
@@ -72,15 +76,4 @@ public class MovimientoBancario extends Informacion {
 	public void setDatoCajero(String datoCajero) {
 		this.datoCajero = datoCajero;
 	}
-
-	@Override
-	public void setDescripcion(String descripcion) {
-		super.setDescripcion(descripcion);
-	}
-
-	@Override
-	public String tipo() {
-		return "Movimiento bancario";
-	}
-
 }

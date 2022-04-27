@@ -2,6 +2,8 @@ package com.bolsadeideas.springboot.app.models.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.bolsadeideas.springboot.app.models.dao.IRedSocialDao;
 import com.bolsadeideas.springboot.app.models.entity.RedSocial;
 
@@ -13,6 +15,7 @@ public class RedSocialImp implements IRedSocialService {
 	private IRedSocialDao redSocialDao;
 	
 	@Override
+	@Transactional
 	public RedSocial create(RedSocial redSocial) {
 		redSocial=redSocialDao.save(redSocial);
 		return redSocial;
